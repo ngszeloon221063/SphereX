@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SphereX | We Don't Just Manage Waste - We Redefine</title>
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.18/dist/lenis.css">
+    <style>
+        /* Embedding D-DIN font definition */
+        @font-face {
+            font-family: 'D-DIN';
+            src: url('D-DIN.e58c68e58b09fc0e.woff2') format('woff2'),
+                 url('D-DIN.105cb3e9fde868e3.woff') format('woff'),
+                 url('D-DIN.e77db3e5eeb79c76.otf') format('opentype');
+            font-style: normal;
+            font-weight: 400;
+            font-display: block;
+        }
+
+        :root {
+            --green: #00ff66;
+            --green-glow: rgba(0, 255, 102, 0.4);
+            --white-100: rgba(240, 240, 250, 1);
+            --white-90: rgba(240, 240, 250, 0.9);
+            --white-80: rgba(240, 240, 250, 0.8);
+            --white-70: rgba(240, 240, 250, 0.7);
+            --white-60: rgba(240, 240, 250, 0.6);
+            --white-50: rgba(240, 240, 250, 0.5);
+            --white-35: rgba(240, 240, 250, 0.35);
+            --white-30: rgba(240, 240, 250, 0.3);
+            --white-25: rgba(255, 255, 255, 0.25);
+            --white-15: rgba(240, 240, 250, 0.15);
+            --white-10: rgba(240, 240, 250, 0.1);
+            --black-50: rgba(0, 0, 0, 0.5);
+            --black-80: rgba(0, 0, 0, 0.85);
+            --gray-80: rgba(37, 38, 40, 0.8);
+            --font-main: 'D-DIN', Arial, Verdana, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font: 16px/26px var(--font-main);
+            font-weight: 400;
+            font-style: normal;
+            font-size: 1rem;
+            line-height: 1.5rem;
+            background-color: #000000;
+            color: var(--white-100);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navigation Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 25px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: linear-gradient(to bottom, var(--black-80) 0%, rgba(0, 0, 0, 0) 100%);
+            transition: padding 0.3s ease, background-color 0.3s ease;
+        }
+
+        .logo-container img {
+            height: 38px;
+            width: auto;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--white-100);
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            padding-bottom: 5px;
+            transition: color 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .nav-links a:hover {
+            color: var(--green);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: var(--green);
+            transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Mobile Hamburger Icon */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 1100;
+        }
+
+        .mobile-menu-btn span {
+            width: 100%;
+            height: 2px;
+            background-color: var(--white-100);
+            transition: all 0.4s ease;
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+            background-color: var(--green);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+            background-color: var(--green);
+        }
+
+        /* Full Screen Section Layouts */
+        .video-section {
+            position: relative;
+            width: 100vw;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            padding: 120px 10% 80px 10%;
+        }
+
+        .align-left {
+            justify-content: flex-start;
+        }
+
+        .align-right {
+            justify-content: flex-end;
+        }
+
+        .bg-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: 1;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, var(--black-50) 0%, rgba(0, 0, 0, 0.9) 100%);
+            z-index: 2;
+        }
+
+        .section-content {
+            position: relative;
+            z-index: 3;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .section-content .subtitle {
+            color: var(--green);
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            text-shadow: 0 0 10px var(--green-glow);
+        }
+
+        .section-content h1 {
+            font-size: 3.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            line-height: 1.05;
+            margin-bottom: 24px;
+            letter-spacing: 2px;
+            color: var(--white-100);
+        }
+
+        .section-content h1 span {
+            color: var(--green);
+        }
+
+        .section-content p {
+            font-size: 1.05rem;
+            margin-bottom: 25px;
+            color: var(--white-90);
+            font-weight: 400;
+            line-height: 1.6;
+            letter-spacing: 0.5px;
+        }
+
+        /* 2x2 Grid Layout for Cards */
+        .tech-split-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .tech-mini-card {
+            background: var(--gray-80);
+            border-left: 3px solid var(--green);
+            border-top: 1px solid rgba(0, 255, 102, 0.2);
+            border-right: 1px solid var(--white-10);
+            border-bottom: 1px solid var(--white-10);
+            padding: 22px;
+            backdrop-filter: blur(12px);
+            border-radius: 8px;
+            transition: border-color 0.8s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .tech-mini-card:hover {
+            border-left-color: var(--green);
+            box-shadow: 0 0 20px var(--green-glow);
+        }
+
+        .tech-mini-card h3 {
+            font-size: 1.05rem;
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .tech-mini-card p {
+            font-size: 0.88rem;
+            color: var(--white-70);
+            margin-bottom: 0;
+            line-height: 1.5;
+        }
+
+        /* 4 Column Statistics Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+
+        .stat-item h3 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--green);
+            line-height: 1;
+            letter-spacing: 1px;
+            text-shadow: 0 0 12px var(--green-glow);
+            margin-bottom: 8px;
+        }
+
+        .stat-item p {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0;
+            color: var(--white-80);
+        }
+
+        /* Advanced Dual-Layer Smooth Transition Button (Black to Green Fade In / Out) */
+        .btn-spacex {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 45px;
+            border: 2px solid var(--white-100);
+            background-color: #000000;
+            color: var(--white-100);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            backdrop-filter: blur(4px);
+            overflow: hidden;
+            z-index: 1;
+            /* Smooth transitions for text color, border color, and glow */
+            transition: color 0.7s cubic-bezier(0.25, 1, 0.5, 1),
+                        border-color 0.7s cubic-bezier(0.25, 1, 0.5, 1),
+                        box-shadow 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 0 0px rgba(0, 255, 102, 0);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Green Background Pseudo-Element for Ultra-Smooth Opacity Fade */
+        .btn-spacex::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--green);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .btn-spacex:hover {
+            color: #000000;
+            border-color: var(--green);
+            box-shadow: 0 0 35px var(--green-glow), 0 0 10px rgba(0, 255, 102, 0.6);
+        }
+
+        .btn-spacex:hover::before {
+            opacity: 1;
+        }
+
+        /* Simplified Footer */
+        footer {
+            position: relative;
+            z-index: 3;
+            background-color: #000000;
+            padding: 60px 10%;
+            border-top: 2px solid var(--green);
+            text-align: center;
+        }
+
+        .footer-tagline {
+            color: var(--green);
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            text-shadow: 0 0 10px var(--green-glow);
+        }
+
+        .footer-url a {
+            color: var(--white-80);
+            text-decoration: none;
+            font-size: 0.95rem;
+            letter-spacing: 1.5px;
+            transition: color 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .footer-url a:hover {
+            color: var(--green);
+        }
+
+        .copyright {
+            font-size: 0.8rem;
+            color: var(--white-50);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid var(--white-10);
+        }
+
+        /* Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.15s; }
+        .reveal-delay-2 { transition-delay: 0.3s; }
+        .reveal-delay-3 { transition-delay: 0.45s; }
+
+        /* MOBILE & TABLET RESPONSIVE OPTIMIZATIONS */
+        @media (max-width: 961px) {
+            header {
+                padding: 18px 24px;
+                background: rgba(0, 0, 0, 0.95);
+            }
+
+            .logo-container img {
+                height: 30px;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 100vw;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, 0.98);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 30px;
+                transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+                z-index: 1050;
+                backdrop-filter: blur(15px);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links a {
+                font-size: 1.2rem;
+                letter-spacing: 3px;
+            }
+
+            .video-section {
+                padding: 110px 6% 60px 6% !important;
+                justify-content: flex-start !important;
+                min-height: 100vh;
+            }
+
+            .section-content {
+                max-width: 100%;
+            }
+
+            .section-content .subtitle {
+                font-size: 0.8rem;
+                letter-spacing: 2px;
+            }
+
+            .section-content h1 {
+                font-size: 2.3rem;
+                line-height: 1.1;
+                margin-bottom: 18px;
+                letter-spacing: 1px;
+            }
+
+            .section-content p {
+                font-size: 0.95rem;
+                line-height: 1.5;
+                margin-bottom: 20px;
+            }
+
+            .tech-split-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+                margin-bottom: 24px;
+            }
+
+            .tech-mini-card {
+                padding: 16px;
+                grid-column: span 1 !important;
+            }
+
+            .tech-mini-card h3 {
+                font-size: 0.95rem;
+            }
+
+            .tech-mini-card p {
+                font-size: 0.82rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+                margin-bottom: 25px;
+            }
+
+            .stat-item h3 {
+                font-size: 2.1rem;
+            }
+
+            .stat-item p {
+                font-size: 0.7rem;
+                letter-spacing: 1px;
+            }
+
+            .btn-spacex {
+                width: 100%;
+                text-align: center;
+                padding: 16px 20px;
+                font-size: 0.8rem;
+            }
+
+            footer {
+                padding: 40px 6%;
+            }
+
+            .footer-tagline {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="app-background">
+
+    <header>
+        <a href="#hero" class="logo-container">
+            <img src="spherex-logo.png" alt="SphereX Logo">
+        </a>
+        
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#competencies">Competencies</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#impact">Impact</a></li>
+            <li><a href="#partnership">Partnership</a></li>
+        </ul>
+    </header>
+
+    <section id="hero" class="video-section align-left">
+        <video class="bg-video" autoplay loop muted playsinline preload="auto">
+            <source src="spherex-hero.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+        <div class="section-content">
+            <div class="subtitle reveal">We Redefine</div>
+            <h1 class="reveal reveal-delay-1">We Don't Just <span>Manage Waste</span></h1>
+            <p class="reveal reveal-delay-2">Innovator in sustainable resource recovery and waste-to-energy solutions, driving industrial decarbonization through advanced biotechnology and circular economy models.</p>
+            <a href="#about" class="btn-spacex reveal reveal-delay-3">About Us →</a>
+        </div>
+    </section>
+
+    <section id="about" class="video-section align-right">
+        <video class="bg-video" autoplay loop muted playsinline preload="auto">
+            <source src="spherex-mission.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+        <div class="section-content">
+            <div class="subtitle reveal">Leading the Circular Economy Revolution</div>
+            <h1 class="reveal reveal-delay-1">About <span>SphereX</span></h1>
+            
+            <div class="tech-split-grid reveal reveal-delay-2">
+                <div class="tech-mini-card">
+                    <h3>Innovation</h3>
+                    <p>Innovator in sustainable resource recovery and waste-to-energy (WtE) solutions, driving industrial decarbonization through advanced biotechnology and circular economy models. We transform organic and inorganic waste streams into renewable energy, certified biomass fuels, and circular commodities.</p>
+                </div>
+                <div class="tech-mini-card">
+                    <h3>Technology</h3>
+                    <p>SphereX delivers end-to-end waste valorization systems that align with global ESG frameworks, positioning industries to meet regulatory mandates, reduce carbon liabilities, and unlock new revenue streams.</p>
+                </div>
+            </div>
+
+            <a href="#vision-mission" class="btn-spacex reveal reveal-delay-3">Vision & Mission →</a>
+        </div>
+    </section>
+
+    <section id="vision-mission" class="video-section align-left">
+        <video class="bg-video" autoplay loop muted playsinline preload="auto">
+            <source src="spherex-tech.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+        <div class="section-content">
+            <div class="subtitle reveal">What We Will Achieve</div>
+            <h1 class="reveal reveal-delay-1">Vision & <span>Mission</span></h1>
+            
+            <div class="tech-split-grid reveal reveal-delay-2">
+                <div class="tech-mini-card">
+                    <h3>Vision</h3>
+                    <p>To spearhead the global transition toward zero-waste economies by redefining industrial waste as a cornerstone of sustainable energy innovation.</p>
+                </div>
+                <div class="tech-mini-card">
+                    <h3>Mission</h3>
+                    <p>To equip industries with scalable, technology-driven waste-to-resource solutions that optimize resource efficiency, generate quantifiable economic returns, and ecological benefits.</p>
+                </div>
+            </div>
+
+            <a href="#competencies" class="btn-spacex reveal reveal-delay-3">Explore Competencies →</a>
+        </div>
+    </section>
+
+    <section id="competencies" class="video-section align-left">
+        <video class="bg-video" autoplay loop muted playsinline preload="auto">
+            <source src="spherex-competencies.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+        <div class="section-content">
+            <div class="subtitle reveal">Integrated Waste-to-Value System</div>
+            <h1 class="reveal reveal-delay-1">Core <span>Competencies</span></h1>
+            
+            <div class="tech-split-grid reveal reveal-delay-2">
+                <div class="tech-mini-card">
+                    <h3>Advanced Waste Valorization</h3>
+                    <p><strong>Organic Waste:</strong> Converting organic materials into clean biogas and nutrient-rich fertilizers.<br><strong>Inorganic Waste:</strong> Transform inorganic waste into certified biomass pellets & renewable syngas.</p>
+                </div>
+                <div class="tech-mini-card">
+                    <h3>Carbon Credit Monetization</h3>
+                    <p>Certified CO2e reduction strategies via landfill diversion, coal substitution, and compliance with VERRA/GS4 frameworks.</p>
+                </div>
+                <div class="tech-mini-card">
+                    <h3>Circular Economy Integration</h3>
+                    <p>Closed-loop systems for waste intake, processing, energy generation, and product distribution, achieving 95% landfill diversion.</p>
+                </div>
+                <div class="tech-mini-card">
+                    <h3>Strategic Industry Alliances</h3>
+                    <p>Partnerships with Tier 1 feedstock suppliers, energy off-takers, and carbon trading platforms to ensure supply chain resilience.</p>
+                </div>
+            </div>
+
+            <a href="#products" class="btn-spacex reveal reveal-delay-3">Our Products →</a>
+        </div>
+    </section>
+
+    <section id="products" class="video-section align-right">
+        <video class="bg-video" autoplay loop muted playsinline preload="auto">
+            <source src="spherex-products.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+        <div class="section-content">
+            <div class="subtitle reveal">Waste to Energy - Not Just Manage Waste But Redefine It</div>
+            <h1 class="reveal reveal-delay-1">Our <span>Products</span></h1>
+            
+            <div class="tech-split-grid reveal reveal-delay-2">
+                <div class="tech-mini-card">
+                    <h3>Recycle Organic Fibre</h3>
+                    <p>Our products adopt microbial technology, which greatly increases the calorific value of the finished products. Advanced processing converts organic waste into high-energy biomass fuel.</p>
+                </div>
+                <div class="tech-mini-card">
+                    <h3>Refuse Fibre Plas</h3>
+                    <p>The raw materials are rich in plastic, and the finished product has an extremely high calorific value. Perfect for energy-intensive industrial applications.</p>
+                </div>
+            </div>
+
+            <a href="#impact" class="btn-spacex reveal reveal-delay-3">Sustainability Impact →</a>
+        </div>
+    </section>
+
+    <section id="impact" class="video-section align-left">
+        <video class="bg-video" autoplay loop muted playsinline preload="auto">
+            <source src="spherex-impact.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+        <div class="section-content">
+            <div class="subtitle reveal">Data-Driven Environmental Stewardship</div>
+            <h1 class="reveal reveal-delay-1">Sustainability <span>Impact</span></h1>
+            
+            <div class="stats-grid reveal reveal-delay-2">
+                <div class="stat-item">
+                    <h3>21,900</h3>
+                    <p>MT Biomass Pellets Annually</p>
+                </div>
+                <div class="stat-item">
+                    <h3>52,000</h3>
+                    <p>MT CO2E Mitigation/Year</p>
+                </div>
+                <div class="stat-item">
+                    <h3>95%</h3>
+                    <p>Waste Diversion Efficiency</p>
+                </div>
+                <div class="stat-item">
+                    <h3>60%+</h3>
+                    <p>Energy Conversion Efficiency</p>
+                </div>
+            </div>
+
+            <a href="#partnership" class="btn-spacex reveal reveal-delay-3">Why Partner With Us →</a>
+        </div>
+    </section>
+
+    <section id="partnership" class="video-section align-left">
+        <video class="bg-video" autoplay loop muted playsinline preload="auto">
+            <source src="spherex-partnership.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+        <div class="section-content">
+            <div class="subtitle reveal">Strategic Advantages for Your Business</div>
+            <h1 class="reveal reveal-delay-1">Why Partner <span>with SphereX</span></h1>
+            
+            <div class="tech-split-grid reveal reveal-delay-2">
+                <div class="tech-mini-card" style="grid-column: span 1;">
+                    <h3>Technical Superiority</h3>
+                    <p>60%+ energy conversion efficiency, validated by third-party audits. Advanced waste valorization converting organic and inorganic waste into clean energy and valuable resources.</p>
+                </div>
+                <div class="tech-mini-card" style="grid-column: span 1;">
+                    <h3>Regulatory Assurance</h3>
+                    <p>Full compliance with DOE, JAS, and international sustainability protocols. ISO 14001 certified with ISCC PLUS certification in progress.</p>
+                </div>
+                <div class="tech-mini-card" style="grid-column: span 2;">
+                    <h3>Dual Value Proposition</h3>
+                    <p>Reduce waste disposal costs while monetizing carbon credits and renewable energy offtakes. Achieve 95% landfill diversion and ESG compliance.</p>
+                </div>
+            </div>
+
+            <a href="#hero" class="btn-spacex reveal reveal-delay-3">Back to Top ↑</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-tagline reveal">
+            We Don't Just Manage Waste - We Redefine™
+        </div>
+        <div class="footer-url reveal reveal-delay-1">
+            <a href="https://www.spherex.com.my" target="_blank">www.spherex.com.my</a>
+        </div>
+        <div class="copyright reveal reveal-delay-2">
+            © 2025 SphereX. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+    <script>
+        // Initialize Smooth Scroll (Lenis)
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true,
+            wheelMultiplier: 1,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Mobile Menu Toggle Logic
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenuBtn.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close Mobile Menu on Click
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuBtn.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Scroll-triggered Reveal Animations via IntersectionObserver
+        const observerOptions = {
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach((el) => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
